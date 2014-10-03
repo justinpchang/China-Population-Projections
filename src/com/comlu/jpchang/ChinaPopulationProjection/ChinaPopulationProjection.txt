@@ -1,0 +1,41 @@
+package com.comlu.jpchang.ChinaPopulationProjection;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import jxl.*;
+import jxl.read.biff.BiffException;
+import java.awt.*;
+import java.awt.image.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+class ChinaPopulationProjection {
+    public static void main(String args[]) throws BiffException, IOException {
+        
+        ArrayList<Dates> dates = new ArrayList<Dates>();
+        ArrayList<BirthRate> birthRates = new ArrayList<BirthRate>();
+        
+        double[] CBRdif = new double[53];
+        double CBRdifSum = 0,CBRdifAvg;
+        
+        for(int y = 1; y < 55; y++) {
+            // add dates to array list (count: 56)
+            dates.add(new Dates(y));
+            // add birth rate data to array list
+            birthRates.add(new BirthRate(y));
+        }
+        
+        for(int i = 0; i < 53; i++) {
+            CBRdif[i] = (birthRates.get(i+1).getVal() - birthRates.get(i).getVal()) / birthRates.get(i).getVal();
+        }
+        for(int i = 0; i < 53; i++) {
+            CBRdifSum += CBRdif[i];
+        }
+        
+        CBRdifAvg = CBRdifSum / 53;
+        
+        System.out.println(CBRdifAvg + "% average rate of change in CBR");
+        
+    }
+}
